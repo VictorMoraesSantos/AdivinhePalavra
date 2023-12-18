@@ -1,20 +1,26 @@
 export default function verificarTentativa(data) {
   const palavra = [...data];
-  const input = document.querySelectorAll('.guess__input');
-  const wordContainer = document.querySelector('.word__letter');
+  const inputs = document.querySelectorAll('.guess__input');
+  const tries = document.querySelector('#tentativa');
   const mistakes = document.querySelector('.mistakes');
 
+  let tent = 10;
   console.log(palavra);
-  input.forEach((input, i) =>
+  inputs.forEach((input, i) =>
     input.addEventListener('input', () => {
       const value = input.value;
       if (value === palavra[i]) {
-        input.disable = true
+        input.disabled = true;
 
         const nextIndex = i + 1;
-        if (nextIndex < input.length) {
-          input[nextIndex].focus();
+        if (nextIndex < inputs.length) {
+          inputs[nextIndex].focus();
         }
+      } else if (value != '') {
+        tent--;
+        tries.textContent = tent;
+      } else {
+        null;
       }
     })
   );
