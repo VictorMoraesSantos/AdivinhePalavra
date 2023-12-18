@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Adivinhe a Palavra!</title>
+</head>
+
+<body>
+  <section class="container">
+    <h1>Adivinhe a palavra</h1>
+
+    <div class="word">
+    </div>
+
+    <div class="infos">
+
+      <div class="tries">
+        <p>Tentativas (<span id="tentativa">10</span>/10):
+      </div>
+
+      <div class="mistakes">
+        <p>Erros:</p>
+      </div>
+    </div>
+
+    <div class="guess__input--container"></div>
+
+    <div class="buttons">
+      <button id="button__random" class="buttons__button">Aleatório</button>
+      <button id="button__reset" class="buttons__button">Resetar</button>
+    </div>
+  </section>
+
+  <script type="module" src="./script/script.js"></script>
+</body>
+
+</html>
