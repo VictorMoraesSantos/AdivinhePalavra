@@ -42,7 +42,6 @@ function criarInput() {
 let mistakes;
 let tent;
 function verificarTentativa(data) {
-  console.log(data)
   inputs = document.querySelectorAll('.guess__input');
   mistakes = [];
   tent = 10;
