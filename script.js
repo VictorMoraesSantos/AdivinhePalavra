@@ -58,6 +58,7 @@ function verificarTentativa(data) {
           inputs[nextIndex].focus();
         }
       } else if (value !== '') {
+        input.value = ''
         --tent;
         tries.textContent = tent;
         mistakes.push(value);
