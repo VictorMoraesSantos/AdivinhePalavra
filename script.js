@@ -40,8 +40,8 @@ function criarInput() {
   guessInputContainer.appendChild(input);
 }
 
-let mistakes = [];
-let tent = 10;
+let mistakes
+let tent
 function verificarTentativa(data) {
   mistakes = [];
   tent = 10;
@@ -70,12 +70,12 @@ function verificarTentativa(data) {
 }
 
 function resetWord() {
-  inputs.forEach((input) => (input.value = ''));
-  mistakes = [];
   mistakesP.textContent = 'Erros:';
   tent = 10;
   tries.textContent = tent;
-  inputs.forEach((input) => {
+  
+  const dynamicInputs = guessInputContainer.querySelectorAll('.guess__input');
+  dynamicInputs.forEach((input) => {
     input.disabled = false;
     input.value = '';
   });
