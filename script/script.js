@@ -4,9 +4,9 @@ import criarElemento from './Modules/criarElemento.js';
 import verificarTentativa from './Modules/verificarTentativa.js';
 import criarInput from './Modules/criarInput.js';
 
-const letras = await wordsFetch();
-separarLetras(letras).forEach((letra) => {
+const palavra = await wordsFetch();
+separarLetras(palavra).forEach((letra) => {
   criarElemento('span', 'word__letter', letra);
   criarInput();
 });
-verificarTentativa(letras);
+verificarTentativa(palavra);
