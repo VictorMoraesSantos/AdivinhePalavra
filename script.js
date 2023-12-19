@@ -4,6 +4,9 @@ const tries = document.querySelector('#tentativa');
 const mistakesP = document.querySelector('.mistakes p');
 const resetBtn = document.querySelector('#button__reset');
 const randomBtn = document.querySelector('#button__random');
+let mistakes;
+let tent;
+const tentativas = 20;
 
 async function wordsFetch() {
   try {
@@ -39,12 +42,10 @@ function criarInput() {
   guessInputContainer.appendChild(input);
 }
 
-let mistakes;
-let tent;
 function verificarTentativa(data) {
   inputs = document.querySelectorAll('.guess__input');
   mistakes = [];
-  tent = 10;
+  tent = tentativas;
 
   inputs.forEach((input, i) => {
     input.addEventListener('input', () => {
@@ -58,7 +59,7 @@ function verificarTentativa(data) {
           inputs[nextIndex].focus();
         }
       } else if (value !== '') {
-        input.value = ''
+        input.value = '';
         --tent;
         tries.textContent = tent;
         mistakes.push(value);
@@ -71,11 +72,11 @@ function verificarTentativa(data) {
   });
 }
 
-let inputs
+let inputs;
 function resetWord() {
   mistakes = [];
   mistakesP.textContent = 'Erros:';
-  tent = 10;
+  tent = tentativas;
   tries.textContent = tent;
   inputs.forEach((input) => {
     input.disabled = false;
