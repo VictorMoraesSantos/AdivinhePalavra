@@ -1,6 +1,5 @@
 const wordContainer = document.querySelector('.word');
 const guessInputContainer = document.querySelector('.guess__input--container');
-const inputs = document.querySelectorAll('.guess__input');
 const tries = document.querySelector('#tentativa');
 const mistakesP = document.querySelector('.mistakes p');
 const resetBtn = document.querySelector('#button__reset');
@@ -25,7 +24,7 @@ function separarLetras([...data]) {
   return data;
 }
 
-function criarElemento(el, atr, content) {
+function criarLetrasDisplay(el, atr, content) {
   const element = document.createElement(el);
   element.classList.add(atr);
   element.textContent = content;
@@ -40,59 +39,62 @@ function criarInput() {
   guessInputContainer.appendChild(input);
 }
 
-let mistakes
-let tent
+let mistakes;
+let tent;
 function verificarTentativa(data) {
+  console.log(data)
+  inputs = document.querySelectorAll('.guess__input');
   mistakes = [];
   tent = 10;
 
-  guessInputContainer.addEventListener('input', (event) => {
-    const input = event.target;
-    const value = input.value;
+  inputs.forEach((input, i) => {
+    input.addEventListener('input', () => {
+      const value = input.value;
 
-    const index = Array.from(inputs).indexOf(input);
+      if (value === [...data][i]) {
+        input.disabled = true;
 
-    if (value === data[index]) {
-      input.disabled = true;
-
-      const nextIndex = index + 1;
-      if (nextIndex < inputs.length) {
-        inputs[nextIndex].focus();
+        const nextIndex = i + 1;
+        if (nextIndex < inputs.length) {
+          inputs[nextIndex].focus();
+        }
+      } else if (value !== '') {
+        --tent;
+        tries.textContent = tent;
+        mistakes.push(value);
+        let err = mistakes.join(', ');
+        mistakesP.textContent = `Erros: ${err}`;
+      } else {
+        return null;
       }
-    } else if (value !== '') {
-      tent--;
-      tries.textContent = tent;
-      mistakes.push(value);
-      let err = mistakes.join(', ');
-      mistakesP.textContent = `Erros: ${err}`;
-    }
+    });
   });
 }
 
+let inputs
 function resetWord() {
+  mistakes = [];
   mistakesP.textContent = 'Erros:';
   tent = 10;
   tries.textContent = tent;
-  
-  const dynamicInputs = guessInputContainer.querySelectorAll('.guess__input');
-  dynamicInputs.forEach((input) => {
+  inputs.forEach((input) => {
     input.disabled = false;
     input.value = '';
   });
 }
 
 async function randomWord() {
-  resetWord();
   while (wordContainer.firstChild && guessInputContainer.firstChild) {
     guessInputContainer.removeChild(guessInputContainer.firstChild);
     wordContainer.removeChild(wordContainer.firstChild);
   }
-  const novaPalavra = await wordsFetch();
-  separarLetras(novaPalavra).forEach((letra) => {
-    criarElemento('span', 'word__letter', letra);
+  const palavra = await wordsFetch();
+  separarLetras(palavra).forEach((letra) => {
+    criarLetrasDisplay('span', 'word__letter', letra);
     criarInput();
   });
-  verificarTentativa(novaPalavra);
+  verificarTentativa(palavra);
+  resetWord();
 }
 randomWord();
 
