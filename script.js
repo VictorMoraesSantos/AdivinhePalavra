@@ -4,6 +4,11 @@ const tries = document.querySelector('#tentativa');
 const mistakesP = document.querySelector('.mistakes p');
 const resetBtn = document.querySelector('#button__reset');
 const randomBtn = document.querySelector('#button__random');
+const overlay = document.querySelector('.overlay');
+const modalBtns = document.querySelectorAll('.modal__button');
+const winModal = document.querySelector('.winModal');
+const loseModal = document.querySelector('.loseModal');
+
 let mistakes;
 let tent;
 const tentativas = 20;
@@ -53,20 +58,18 @@ function verificarTentativa(data) {
 
       if (value === [...data][i]) {
         input.disabled = true;
-
         const nextIndex = i + 1;
-        if (nextIndex < inputs.length) {
-          inputs[nextIndex].focus();
-        }
-      } else if (value !== '') {
+        data[i + 1] ? inputs[nextIndex].focus() : displayModal('.winModal');
+      } else if (value !== '' && tent > 1) {
         input.value = '';
-        --tent;
+        tent--;
         tries.textContent = tent;
         mistakes.push(value);
         let err = mistakes.join(', ');
         mistakesP.textContent = `Erros: ${err}`;
       } else {
-        return null;
+        displayModal('.loseModal');
+        tent = 0;
       }
     });
   });
@@ -99,5 +102,21 @@ async function randomWord() {
 }
 randomWord();
 
+function displayModal(el) {
+  const modal = document.querySelector(el);
+  modal.classList.remove('hidden');
+  overlay.classList.remove('hidden');
+}
+
+function removeModal() {
+  overlay.classList.add('hidden');
+  winModal.classList.contains('hidden')
+    ? loseModal.classList.add('hidden')
+    : winModal.classList.add('hidden');
+  randomWord();
+}
+
+modalBtns.forEach((btn) => btn.addEventListener('click', removeModal));
+overlay.addEventListener('click', removeModal);
 randomBtn.addEventListener('click', randomWord);
 resetBtn.addEventListener('click', resetWord);
