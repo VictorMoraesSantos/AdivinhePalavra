@@ -58,9 +58,11 @@ function verificarTentativa(data) {
 
       if (value === [...data][i]) {
         input.disabled = true;
+        input.style.borderColor = 'green';
         const nextIndex = i + 1;
         data[i + 1] ? inputs[nextIndex].focus() : displayModal('.winModal');
       } else if (value !== '' && tent > 1) {
+        input.style.borderColor = 'red';
         input.value = '';
         tent--;
         tries.textContent = tent;
@@ -84,6 +86,7 @@ function resetWord() {
   inputs.forEach((input) => {
     input.disabled = false;
     input.value = '';
+    input.style.borderColor = '';
   });
 }
 
